@@ -2,8 +2,9 @@
   "apps": [
     {
       "name": "app",
-      "script": "dist/main.js",
       "instances": 1,
+      "script": "node_modules/next/dist/bin/next",
+      "args": "start",
       "exec_mode": "cluster",
       "env": {
         "NODE_ENV": "prod",
