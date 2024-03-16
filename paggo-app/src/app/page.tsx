@@ -10,12 +10,12 @@ export default function Home() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     console.log(formData.get("file"))
-    // const response = await fetch("/api/upload", {
-    //   method: "POST",
-    //   body: formData
-    // })
-    // const data = await response.json()
-    // console.log(data)
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/invoice/upload", {
+      method: "POST",
+      body: formData
+    })
+    const data = await response.json()
+    console.log(data)
   }
 
   return (

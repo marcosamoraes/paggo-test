@@ -24,9 +24,9 @@ export class S3Service {
     fileName: string,
   ): Promise<PutObjectCommandOutput> {
     const input = {
-      Body: file,
       Bucket: process.env.S3_BUCKET,
       Key: fileName,
+      Body: file,
     };
     const command = new PutObjectCommand(input);
     return await this.s3.send(command);
