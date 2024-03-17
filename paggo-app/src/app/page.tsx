@@ -8,7 +8,7 @@ import { IoMdSend } from "react-icons/io"
 
 export default function Home() {
   const [ invoices, setInvoices ] = useState<IInvoice[]>([])
-  const [ isLoading, setIsLoading ] = useState<boolean>(false)
+  const [ isLoading, setIsLoading ] = useState<boolean>(true)
 
   const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

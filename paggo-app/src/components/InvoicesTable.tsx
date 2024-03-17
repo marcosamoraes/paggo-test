@@ -6,6 +6,11 @@ type Props = {
 }
 
 const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
+  const moneyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
   return isLoading ? (
     <div className="flex justify-center items-center">
       <p>Loading...</p>
@@ -36,10 +41,10 @@ const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
                 <p className='bg-yellow-500 text-yellow-700 dark:bg-yellow-400 dark:text-yellow-800 rounded-full px-2 py-1'>Pending</p>
               )}
             </td>
-            <td className="px-6 py-4 text-center">{invoice.invoiceNumber}</td>
+            <td className="px-6 py-4 text-center">{invoice.invoiceNumber ?? '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleDateString() : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString() : '-'}</td>
-            <td className="px-6 py-4 text-center">{invoice.balanceDue}</td>
+            <td className="px-6 py-4 text-center">{invoice.balanceDue ? moneyFormatter.format(invoice.balanceDue) : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.processedAt ? new Date(invoice.processedAt).toLocaleDateString() : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.updatedAt ? new Date(invoice.updatedAt).toLocaleDateString() : '-'}</td>
