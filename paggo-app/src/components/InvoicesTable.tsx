@@ -11,6 +11,11 @@ const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
     currency: 'USD',
   });
 
+  const formatDate = (value: any) => {
+    const date = new Date(value)
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+  }
+
   return isLoading ? (
     <div className="flex justify-center items-center">
       <p>Loading...</p>
@@ -27,7 +32,6 @@ const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
           <th scope="col" className="px-6 py-3 text-center">Balance Due</th>
           <th scope="col" className="px-6 py-3 text-center">Processed At</th>
           <th scope="col" className="px-6 py-3 text-center">Created At</th>
-          <th scope="col" className="px-6 py-3 text-center">Updated At</th>
         </tr>
       </thead>
       <tbody>
@@ -45,9 +49,8 @@ const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
             <td className="px-6 py-4 text-center">{invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleDateString() : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString() : '-'}</td>
             <td className="px-6 py-4 text-center">{invoice.balanceDue ? moneyFormatter.format(invoice.balanceDue) : '-'}</td>
-            <td className="px-6 py-4 text-center">{invoice.processedAt ? new Date(invoice.processedAt).toLocaleDateString() : '-'}</td>
-            <td className="px-6 py-4 text-center">{invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : '-'}</td>
-            <td className="px-6 py-4 text-center">{invoice.updatedAt ? new Date(invoice.updatedAt).toLocaleDateString() : '-'}</td>
+            <td className="px-6 py-4 text-center">{invoice.processedAt ? formatDate(invoice.processedAt) : '-'}</td>
+            <td className="px-6 py-4 text-center">{invoice.createdAt ? formatDate(invoice.createdAt) : '-'}</td>
           </tr>
         ))}
       </tbody>
