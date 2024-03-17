@@ -5,12 +5,14 @@ import { InvoiceProcessedDto } from 'src/dtos/InvoiceProcessedDto';
 import { PrismaService } from 'src/prisma.service';
 import { S3Service } from 'src/s3.service';
 import { UserService } from 'src/user/user.service';
+import { InvoiceGateway } from './invoice.gateway';
 
 @Injectable()
 export class InvoiceService {
   constructor(
     private prisma: PrismaService,
     private userService: UserService,
+    private invoiceGateway: InvoiceGateway,
   ) {}
 
   async find(
@@ -128,6 +130,8 @@ export class InvoiceService {
       where: { id: invoice.id },
       data: updateData,
     });
+
+    this.invoiceGateway.notifyClientsAboutInvoiceChange(invoiceData);
 
     return {
       message: 'Invoice processed successfully',

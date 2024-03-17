@@ -5,6 +5,9 @@ import Logo from "@/components/Logo"
 import Button from "@/components/UI/Button"
 import { useEffect, useState } from "react"
 import { IoMdSend } from "react-icons/io"
+import { io } from "socket.io-client"
+
+const socket = io(process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001");
 
 export default function Home() {
   const [ invoices, setInvoices ] = useState<IInvoice[]>([])
@@ -41,7 +44,16 @@ export default function Home() {
 
   useEffect(() => {
     fetchInvoices()
-  }, [])
+
+    socket.on('invoiceChanged', (invoiceData) => {
+      console.log('Invoice data:', invoiceData);
+      fetchInvoices()
+    });
+
+    return () => {
+      socket.off('invoiceChanged');
+    };
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col justify-center items-center p-24 gap-20">
