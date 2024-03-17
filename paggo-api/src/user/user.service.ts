@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
+import { hash } from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -32,8 +33,19 @@ export class UserService {
   }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (user) {
+      throw new Error('User already exists');
+    }
+
     return this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        password: await hash(data.password, 10),
+      },
     });
   }
 
@@ -51,6 +63,18 @@ export class UserService {
   async delete(where: Prisma.UserWhereUniqueInput): Promise<User> {
     return this.prisma.user.delete({
       where,
+    });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { id },
     });
   }
 }

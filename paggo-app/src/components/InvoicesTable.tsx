@@ -42,7 +42,7 @@ const InvoicesTable: React.FC<any> = ({ invoices, isLoading }: Props) => {
               {invoice.processedAt ? (
                 <p className='bg-green-500 text-green-700 dark:bg-green-400 dark:text-green-800 rounded-full px-2 py-1'>Processed</p>
               ) : (
-                <p className='bg-yellow-500 text-yellow-700 dark:bg-yellow-400 dark:text-yellow-800 rounded-full px-2 py-1'>Pending</p>
+                <p className='bg-yellow-500 text-yellow-700 dark:bg-yellow-400 dark:text-yellow-800 rounded-full px-2 py-1'>Processing...</p>
               )}
             </td>
             <td className="px-6 py-4 text-center">{invoice.invoiceNumber ?? '-'}</td>

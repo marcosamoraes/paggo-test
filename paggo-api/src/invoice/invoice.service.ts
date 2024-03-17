@@ -74,7 +74,7 @@ export class InvoiceService {
     });
   }
 
-  async upload(file: Express.Multer.File) {
+  async upload(file: Express.Multer.File, userId: string) {
     const S3ServiceInstance = new S3Service();
 
     try {
@@ -83,14 +83,10 @@ export class InvoiceService {
 
       await S3ServiceInstance.uploadFileToS3(file.buffer, name);
 
-      let user = await this.userService.find({ email: 'teste@teste.com' });
+      const user = await this.userService.findById(userId);
 
       if (!user) {
-        user = await this.userService.create({
-          email: 'teste@teste.com',
-          name: 'Teste',
-          password: '123456',
-        });
+        throw new NotFoundException('User not found');
       }
 
       await this.create({
