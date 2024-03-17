@@ -69,7 +69,7 @@ export class InvoiceService {
 
       await S3ServiceInstance.uploadFileToS3(file.buffer, name);
 
-      let user = this.userService.get({ take: 1 })[0];
+      let user = await this.userService.find({ email: 'teste@teste.com' });
 
       if (!user) {
         user = await this.userService.create({
@@ -81,7 +81,11 @@ export class InvoiceService {
 
       await this.create({
         fileName: name,
-        user,
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
       });
 
       return {
