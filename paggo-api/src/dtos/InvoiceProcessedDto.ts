@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class InvoiceProcessedDto {
   @IsNotEmpty()
@@ -9,15 +15,15 @@ export class InvoiceProcessedDto {
   invoiceNumber: string;
 
   @IsOptional()
-  @IsString()
+  @IsDateString()
   invoiceDate: string;
 
   @IsOptional()
-  @IsString()
+  @IsDateString()
   dueDate: string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   balanceDue: number;
 
   @IsOptional()
