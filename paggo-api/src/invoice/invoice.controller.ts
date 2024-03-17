@@ -31,7 +31,7 @@ export class InvoiceController {
 
     await this.invoiceService.update({
       where: { id: invoice.id },
-      data: { processedAt: new Date() },
+      data: { ...body.data, processedAt: new Date() },
     });
 
     return res.status(200).send({
