@@ -20,6 +20,17 @@ export class InvoiceService {
     });
   }
 
+  async findFirst(params: {
+    where?: Prisma.InvoiceWhereInput;
+    orderBy?: Prisma.InvoiceOrderByWithRelationInput;
+  }): Promise<Invoice | null> {
+    const { where, orderBy } = params;
+    return this.prisma.invoice.findFirst({
+      where,
+      orderBy,
+    });
+  }
+
   async get(params: {
     skip?: number;
     take?: number;

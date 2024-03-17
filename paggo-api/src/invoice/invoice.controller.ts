@@ -19,7 +19,18 @@ export class InvoiceController {
   }
 
   @Post('process')
-  processInvoiceResults(@Body() body: any) {
-    this.invoiceService.create(body.data);
+  async processInvoiceResults(@Body() body: any) {
+    const invoice = await this.invoiceService.findFirst({
+      where: { fileName: body.file },
+    });
+
+    if (!invoice) {
+      return 'Invoice not found';
+    }
+
+    this.invoiceService.update({
+      where: { id: invoice.id },
+      data: { ...body, processedAt: new Date() },
+    });
   }
 }
