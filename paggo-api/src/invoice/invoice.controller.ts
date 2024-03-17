@@ -4,6 +4,7 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -19,7 +20,7 @@ export class InvoiceController {
   }
 
   @Post('process')
-  async processInvoiceResults(@Body() body: any) {
+  async processInvoiceResults(@Body() body: any, @Res() res: any) {
     const invoice = await this.invoiceService.findFirst({
       where: { fileName: body.file },
     });
@@ -32,5 +33,7 @@ export class InvoiceController {
       where: { id: invoice.id },
       data: { ...body, processedAt: new Date() },
     });
+
+    return res.status(200).send('Invoice processed');
   }
 }
