@@ -7,6 +7,7 @@ interface AuthContextProps {
   register: (name: string, email: string, password: string) => void;
   logout: () => void;
   errors: string[];
+  setErrors: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -84,7 +85,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
       
       storeToken(data.access_token);
-    } catch (error) {
+    } catch (error: any) {
+      setErrors(['Invalid email or password']);
       console.error(error);
     } finally {
       setAuthIsLoading(false);
@@ -130,7 +132,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ user, authIsLoading, login, register, logout, errors }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      authIsLoading, 
+      login, 
+      register, 
+      logout, 
+      errors, 
+      setErrors 
+    }}>
       {children}
     </AuthContext.Provider>
   );

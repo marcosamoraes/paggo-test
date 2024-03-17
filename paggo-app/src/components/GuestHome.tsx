@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Button from './UI/Button';
 
 const GuestHome: React.FC<any> = () => {
-  const { authIsLoading, login, register, errors } = useAuth();
+  const { authIsLoading, login, register, errors, setErrors } = useAuth();
 
   const [ isLogin, setIsLogin ] = useState(true);
   const [ name, setName ] = useState<string>("");
@@ -22,11 +22,20 @@ const GuestHome: React.FC<any> = () => {
     register(name, email, password);
   }
 
+  const handleIsLogin = () => {
+    setErrors([]);
+    setIsLogin(!isLogin);
+  }
+
   return isLogin ? (
     <form
       className="flex flex-col gap-4"
       onSubmit={handleLogin}
     >
+      {errors && errors.map((error: string, index: number) => (
+        <p key={index} className="text-red-500 text-center">{error}</p>
+      ))}
+
       <input
         type="email"
         name="email"
@@ -54,7 +63,7 @@ const GuestHome: React.FC<any> = () => {
         <button
           type="button"
           className="text-white hover:text-gray-300 font-bold"
-          onClick={() => setIsLogin(false)}
+          onClick={handleIsLogin}
         >
           Register
         </button>
@@ -105,7 +114,7 @@ const GuestHome: React.FC<any> = () => {
         <button
           type="button"
           className="text-white hover:text-gray-300 font-bold"
-          onClick={() => setIsLogin(true)}
+          onClick={handleIsLogin}
         >
           Login
         </button>
