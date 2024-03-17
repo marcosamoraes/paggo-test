@@ -26,14 +26,17 @@ export class InvoiceController {
     });
 
     if (!invoice) {
-      return 'Invoice not found';
+      return res.status(404).send('Invoice not found');
     }
 
     this.invoiceService.update({
       where: { id: invoice.id },
-      data: { ...body, processedAt: new Date() },
+      data: { processedAt: new Date() },
     });
 
-    return res.status(200).send('Invoice processed');
+    return res.status(200).send({
+      message: 'Invoice processed successfully',
+      invoice: invoice,
+    });
   }
 }
