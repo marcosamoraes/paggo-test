@@ -33,8 +33,6 @@ export default function Home() {
     fetchInvoices()
   }, [])
 
-  console.log(invoices)
-
   return (
     <main className="flex min-h-screen flex-col justify-center items-center p-24 gap-20">
       <header className="flex flex-col items-center gap-6">
@@ -63,12 +61,12 @@ export default function Home() {
                 <span>{invoice.id}</span>
                 <span>{invoice.fileName}</span>
                 <span>{invoice.invoiceNumber}</span>
-                <span>{invoice.invoiceDate?.toString()}</span>
-                <span>{invoice.dueDate?.toString()}</span>
+                <span>{invoice.invoiceDate?.toLocaleDateString()}</span>
+                <span>{invoice.dueDate?.toLocaleDateString()}</span>
                 <span>{invoice.balanceDue}</span>
-                <span>{invoice.processedAt?.toString()}</span>
-                <span>{invoice.createdAt?.toString()}</span>
-                <span>{invoice.updatedAt?.toString()}</span>
+                <span>{invoice.processedAt?.toLocaleDateString()}</span>
+                <span>{invoice.createdAt?.toLocaleDateString()}</span>
+                <span>{invoice.updatedAt?.toLocaleDateString()}</span>
               </li>
             ))}
           </ul>
