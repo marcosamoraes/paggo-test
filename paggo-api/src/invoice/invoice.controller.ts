@@ -25,15 +25,7 @@ export class InvoiceController {
     @Body() invoiceProcessedDto: InvoiceProcessedDto,
     @Res() res: any,
   ) {
-    try {
-      const result =
-        await this.invoiceService.updateResults(invoiceProcessedDto);
-      return res.status(200).send(result);
-    } catch (error: any) {
-      return res.status(error.statusCode ?? 500).send({
-        message: 'Error processing invoice results',
-        error: error.message,
-      });
-    }
+    const result = await this.invoiceService.updateResults(invoiceProcessedDto);
+    return res.status(200).send(result);
   }
 }

@@ -132,7 +132,6 @@ export class InvoiceService {
     return {
       message: 'Invoice processed successfully',
       invoice,
-      data,
     };
   }
 }
