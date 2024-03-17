@@ -55,21 +55,37 @@ export default function Home() {
         <section className="flex flex-col gap-4">
           <h3 className="text-2xl">Invoices</h3>
 
-          <ul className="flex flex-col gap-4">
-            {invoices.map(invoice => (
-              <li key={invoice.id} className="flex gap-4">
-                <span>{invoice.id}</span>
-                <span>{invoice.fileName}</span>
-                <span>{invoice.invoiceNumber}</span>
-                <span>{invoice.invoiceDate?.toLocaleDateString()}</span>
-                <span>{invoice.dueDate?.toLocaleDateString()}</span>
-                <span>{invoice.balanceDue}</span>
-                <span>{invoice.processedAt?.toLocaleDateString()}</span>
-                <span>{invoice.createdAt?.toLocaleDateString()}</span>
-                <span>{invoice.updatedAt?.toLocaleDateString()}</span>
-              </li>
-            ))}
-          </ul>
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>File</th>
+                <th>Invoice Number</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Balance Due</th>
+                <th>Processed At</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {invoices.map(invoice => (
+                <tr key={invoice.id}>
+                  <td>{invoice.id}</td>
+                  <td>{invoice.fileName}</td>
+                  <td>{invoice.invoiceNumber}</td>
+                  <td>{invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleDateString() : '-'}</td>
+                  <td>{invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString() : '-'}</td>
+                  <td>{invoice.balanceDue}</td>
+                  <td>{invoice.processedAt ? new Date(invoice.processedAt).toLocaleDateString() : '-'}</td>
+                  <td>{invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : '-'}</td>
+                  <td>{invoice.updatedAt ? new Date(invoice.updatedAt).toLocaleDateString() : '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
       )}
     </main>
