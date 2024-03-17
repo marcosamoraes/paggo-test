@@ -31,10 +31,10 @@ export class InvoiceController {
 
     const data = { ...body, processedAt: new Date() };
 
-    await this.invoiceService.update({
-      where: { id: invoice.id },
-      data,
-    });
+    // await this.invoiceService.update({
+    //   where: { id: invoice.id },
+    //   data,
+    // });
 
     return res.status(200).send({
       message: 'Invoice processed successfully',
