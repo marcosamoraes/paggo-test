@@ -19,12 +19,18 @@ export default function Home() {
     })
 
     const data = await response.json()
+
+    fetchInvoices()
+  }
+
+  const fetchInvoices = async () => {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/invoice")
+    const data = await response.json()
+    setInvoices(data)
   }
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "/invoice")
-      .then(response => response.json())
-      .then(data => setInvoices(data))
+    fetchInvoices()
   }, [])
 
   console.log(invoices)

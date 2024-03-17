@@ -32,7 +32,7 @@ export class InvoiceController {
 
   @Get()
   async getInvoices(@Res() res: any) {
-    const result = await this.invoiceService.get({});
+    const result = await this.invoiceService.get({ orderBy: { id: 'desc' } });
     return res.status(200).send(result);
   }
 }
