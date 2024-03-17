@@ -1,0 +1,39 @@
+ Paggo
+Take-Home Case Outline
+
+Objective:
+Design and implement a solution that allows users to upload an invoice image to a webpage, automatically extract text from the image using OCR (Optical Character Recognition), and display a structured summary of the extracted data to the user.
+
+Requirements:
+
+System Design Document:
+● Describe the architecture of the solution, including the frontend, backend, cloud
+resources, and any external services or APIs
+
+● Include a diagram illustrating the components and their interactions.
+
+● Detail the AWS resources to be used (e.g., Lambda, RDS, etc)
+
+Database Modeling:
+● Design a high-level model of the database using PostgreSQL and Prisma ORM
+
+Frontend:
+● Develop a simple webpage using the Next.js framework that allows users to
+upload an invoice image.
+
+● Implement feedback mechanisms on the webpage (e.g., progress indicator,
+success/error messages). 
+
+Backend:
+● Create a backend service using the NestJS framework to handle image uploads, manage OCR processing, and store results in the database.
+
+Authentication and Permissions:
+● Users must be authenticated using GAuth prior to being able to upload the invoice. 
+Only the user who uploaded the document can be able to access it. You can use any open-source authentication tool.
+
+Deliverables:
+● A system design document including architecture diagrams.
+
+● Source code for the frontend and backend services.
+
+● Instructions for setting up and running the solution, including any necessary AWS configuration

@@ -1,0 +1,7 @@
+sudo apt-get install git
+curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+sudo npm install yarn pm2 -g
+sudo npm i -g @nestjs/cli
+sudo npm -g install next
+npm install prisma --save-dev
