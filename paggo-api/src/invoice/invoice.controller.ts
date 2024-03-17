@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { InvoiceProcessedDto } from 'src/dtos/InvoiceProcessedDto';
 
 @Controller('invoice')
 export class InvoiceController {
@@ -20,26 +21,19 @@ export class InvoiceController {
   }
 
   @Post('process')
-  async processInvoiceResults(@Body() body: any, @Res() res: any) {
-    const invoice = await this.invoiceService.findFirst({
-      where: { fileName: body.file },
-    });
-
-    if (!invoice) {
-      return res.status(404).send('Invoice not found');
+  async processInvoiceResults(
+    @Body() invoiceProcessedDto: InvoiceProcessedDto,
+    @Res() res: any,
+  ) {
+    try {
+      const result =
+        await this.invoiceService.updateResults(invoiceProcessedDto);
+      return res.status(200).send(result);
+    } catch (error: any) {
+      return res.status(error.statusCode ?? 500).send({
+        message: 'Error processing invoice results',
+        error: error.message,
+      });
     }
-
-    const data = { ...body, processedAt: new Date() };
-
-    // await this.invoiceService.update({
-    //   where: { id: invoice.id },
-    //   data,
-    // });
-
-    return res.status(200).send({
-      message: 'Invoice processed successfully',
-      invoice,
-      data,
-    });
   }
 }

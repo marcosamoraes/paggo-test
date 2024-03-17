@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Invoice, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { InvoiceProcessedDto } from 'src/dtos/InvoiceProcessedDto';
 import { PrismaService } from 'src/prisma.service';
 import { S3Service } from 'src/s3.service';
 import { UserService } from 'src/user/user.service';
@@ -105,5 +106,31 @@ export class InvoiceService {
     } catch (error) {
       throw new Error(`Error uploading file: ${error}`);
     }
+  }
+
+  async updateResults(data: InvoiceProcessedDto) {
+    const invoice = await this.findFirst({
+      where: { fileName: data.file },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException('Invoice not found');
+    }
+
+    const updateData = {
+      ...data,
+      processedAt: new Date(),
+    };
+
+    await this.update({
+      where: { id: invoice.id },
+      data: updateData,
+    });
+
+    return {
+      message: 'Invoice processed successfully',
+      invoice,
+      data,
+    };
   }
 }
