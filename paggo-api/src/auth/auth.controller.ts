@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Post,
   Request,
   Response,
@@ -39,6 +40,9 @@ export class AuthController {
   @Get('profile')
   async getProfile(@Request() req: any) {
     const user = await this.userService.findById(req.user.sub);
+    if (!user) {
+      throw new NotFoundException();
+    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
     return result;

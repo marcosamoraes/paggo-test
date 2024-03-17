@@ -56,10 +56,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       });
 
+      if (response.status !== 200) {
+        throw new Error("Unauthorized");
+      }
+
       const data = await response.json();
 
       setUser(data);
     } catch (error) {
+      localStorage.removeItem("token");
+      setToken(null);
       console.error(error);
     } finally {
       setAuthIsLoading(false);
@@ -119,7 +125,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       await login(email, password);
     } catch (error: any) {
       console.log(error)
-      // throw new Error(error.message ?? "An error occurred");
+      throw new Error(error.message ?? "An error occurred");
     } finally {
       setAuthIsLoading(false);
     }
