@@ -109,8 +109,10 @@ export class InvoiceService {
   }
 
   async updateResults(data: InvoiceProcessedDto) {
+    const { file, ...invoiceData } = data;
+
     const invoice = await this.findFirst({
-      where: { fileName: data.file },
+      where: { fileName: file },
     });
 
     if (!invoice) {
@@ -118,7 +120,7 @@ export class InvoiceService {
     }
 
     const updateData = {
-      ...data,
+      ...invoiceData,
       processedAt: new Date(),
     };
 
