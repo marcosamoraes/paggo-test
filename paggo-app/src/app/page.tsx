@@ -2,21 +2,32 @@
 
 import Logo from "@/components/Logo"
 import Button from "@/components/UI/Button"
+import { useEffect, useState } from "react"
 import { IoMdSend } from "react-icons/io"
 
 export default function Home() {
+  const [ invoices, setInvoices ] = useState<IInvoice[]>([])
 
   const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     const formData = new FormData(e.currentTarget)
-    console.log(formData.get("file"))
+
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/invoice/upload", {
       method: "POST",
       body: formData
     })
+
     const data = await response.json()
-    console.log(data)
   }
+
+  useEffect(() => {
+    fetch(process.env.NEXT_PUBLIC_API_URL + "/invoice")
+      .then(response => response.json())
+      .then(data => setInvoices(data))
+  }, [])
+
+  console.log(invoices)
 
   return (
     <main className="flex min-h-screen flex-col justify-center items-center p-24 gap-20">
@@ -35,6 +46,28 @@ export default function Home() {
 
         <Button type="submit" Icon={IoMdSend}>Send Invoice</Button>
       </form>
+
+      {invoices.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <h3 className="text-2xl">Invoices</h3>
+
+          <ul className="flex flex-col gap-4">
+            {invoices.map(invoice => (
+              <li key={invoice.id} className="flex gap-4">
+                <span>{invoice.id}</span>
+                <span>{invoice.fileName}</span>
+                <span>{invoice.invoiceNumber}</span>
+                <span>{invoice.invoiceDate?.toString()}</span>
+                <span>{invoice.dueDate?.toString()}</span>
+                <span>{invoice.balanceDue}</span>
+                <span>{invoice.processedAt?.toString()}</span>
+                <span>{invoice.createdAt?.toString()}</span>
+                <span>{invoice.updatedAt?.toString()}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   );
 }

@@ -5,6 +5,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  Get,
 } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -26,6 +27,12 @@ export class InvoiceController {
     @Res() res: any,
   ) {
     const result = await this.invoiceService.updateResults(invoiceProcessedDto);
+    return res.status(200).send(result);
+  }
+
+  @Get()
+  async getInvoices(@Res() res: any) {
+    const result = await this.invoiceService.get({});
     return res.status(200).send(result);
   }
 }
